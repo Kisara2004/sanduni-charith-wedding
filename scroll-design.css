@@ -1,0 +1,32 @@
+/* One continuous paper surface; ornaments belong to particular chapters. */
+main{background:linear-gradient(165deg,#fff9f1 0%,#fbf1ec 24%,#fff8ef 44%,#faf0eb 68%,#fff8ef 100%)}
+.ornament-library{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+main::before,main::after{opacity:.6}
+.invitation-card,.section,footer{isolation:isolate}
+.invitation-card::before{content:'';position:absolute;inset:0 0 auto;height:620px;background:url('assets/floral-silk.png') top center/100% auto no-repeat;opacity:.62;mask-image:linear-gradient(#000 0%,#000 40%,transparent 100%);z-index:-1;pointer-events:none}
+.scroll-ornament{position:absolute;color:#b99a60;pointer-events:none;z-index:-1;overflow:visible}
+.story-vine{width:114px;height:410px;right:-40px;top:100px;opacity:.42;transform:rotate(12deg)}
+#story{padding-top:70px;padding-bottom:60px}
+#story::before{content:'';position:absolute;inset:-80px -80px -70px;background:linear-gradient(142deg,transparent 38%,#fffdf6c9 40%,#e3c6b529 42%,#fffcf491 46%,transparent 51%);z-index:-2;pointer-events:none}
+.story-panel{background:#fff8f3b8}
+.countdown-section{padding-top:35px;padding-bottom:75px}
+.countdown-fan{width:220px;height:220px;left:-135px;top:-35px;opacity:.32;transform:rotate(18deg)}
+.countdown-section::after{content:'';position:absolute;width:120px;height:1px;background:linear-gradient(90deg,transparent,#b99a6066,transparent);left:calc(50% - 60px);bottom:30px;transform:rotate(-7deg)}
+#events{padding-top:65px;padding-bottom:85px}
+#events::before{content:'';position:absolute;inset:-75px 0 0;background:url('assets/jasmine-garlands.png') top center/100% auto no-repeat;opacity:.83;mask-image:linear-gradient(transparent,#000 12%,#000 76%,transparent);z-index:-2;pointer-events:none;mix-blend-mode:multiply}
+.event-card{background:#fff9f4c9}
+.event-list{gap:31px}
+.events-lotus{width:120px;height:85px;left:-37px;bottom:7px;opacity:.48;transform:rotate(-18deg)}
+.venue-section{padding-top:75px;padding-bottom:65px}
+.venue-arch{width:calc(100% - 42px);height:440px;left:21px;top:-4px;opacity:.38}
+.venue-section::after{content:'';position:absolute;inset:-65px -65px -100px;background:linear-gradient(30deg,transparent 27%,#e8c7b32b 29%,#fffdf7b3 33%,transparent 38%);z-index:-2;pointer-events:none}
+.venue-panel{background:linear-gradient(#fffaf49c,#fcf0eaa6);border-radius:70px 70px 9px 9px;padding-top:39px}
+.venue-panel::before{border-radius:64px 64px 6px 6px}
+.rsvp-section{padding-top:65px;padding-bottom:70px}
+.rsvp-vine{width:105px;height:400px;left:-49px;top:170px;opacity:.42;transform:scaleX(-1) rotate(5deg)}
+.rsvp-form{background:#fff7f3c9}
+.rsvp-section::before{content:'';position:absolute;inset:120px -90px -75px;background:radial-gradient(ellipse at 98% 55%,#e8c9b438,transparent 58%);z-index:-2;pointer-events:none}
+footer{padding-top:45px;padding-bottom:205px;background:none}
+footer::before{content:'';position:absolute;inset:-140px 0 0;background:url('assets/lotus-ending.png') bottom center/100% auto no-repeat;opacity:.95;mask-image:linear-gradient(transparent,#000 28%);mix-blend-mode:multiply;z-index:-1;pointer-events:none}
+footer .footer-ornament{color:#bb9a62}
+@media(max-width:360px){footer{padding-bottom:170px}.venue-arch{height:415px}}

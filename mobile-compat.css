@@ -1,0 +1,28 @@
+/* iPhone-friendly visual fallbacks: only JPG photography and CSS accents. */
+@media (max-width: 600px) {
+  .couple-art {
+    width: min(88%, 345px);
+    max-height: 500px;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid var(--line);
+    border-radius: 170px 170px 10px 10px;
+    mix-blend-mode: normal;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .logo-cover {
+    background:
+      radial-gradient(ellipse at 12% 18%, #f1d7bd75, transparent 27%),
+      radial-gradient(ellipse at 90% 84%, #ead4bd8f, transparent 31%),
+      linear-gradient(140deg, #fffaf5, #f8eee3 52%, #fff8f0);
+  }
+
+  .falling-petal::before {
+    background: radial-gradient(ellipse at 25% 20%, #fff7ee 0 9%, transparent 10%),
+      linear-gradient(135deg, #f7d3d6, #d9899a 54%, #f7dde0) !important;
+    border-radius: 72% 12% 70% 12%;
+    box-shadow: inset -2px -2px 4px #a8506722;
+  }
+}
