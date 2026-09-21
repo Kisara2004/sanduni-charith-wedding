@@ -38,7 +38,7 @@
   else {entrance.classList.add('departing');setTimeout(reveal,reduced.matches?0:1800);}
  });
  musicToggle.addEventListener('click',()=>{if(music.paused)music.play().then(updateMusic).catch(updateMusic);else{music.pause();updateMusic();}});
- const target=Date.parse('2026-11-19T09:00:00+05:30');function tick(){const diff=Math.max(0,target-Date.now());const values={days:Math.floor(diff/86400000),hours:Math.floor(diff/3600000)%24,minutes:Math.floor(diff/60000)%60,seconds:Math.floor(diff/1000)%60};for(const [id,v]of Object.entries(values))document.getElementById(id).textContent=String(v).padStart(2,'0');}tick();setInterval(tick,1000);
+ const target=Date.parse('2026-11-19T10:00:00+05:30');function tick(){const diff=Math.max(0,target-Date.now());const values={days:Math.floor(diff/86400000),hours:Math.floor(diff/3600000)%24,minutes:Math.floor(diff/60000)%60,seconds:Math.floor(diff/1000)%60};for(const [id,v]of Object.entries(values))document.getElementById(id).textContent=String(v).padStart(2,'0');}tick();setInterval(tick,1000);
  if('IntersectionObserver'in window&&!reduced.matches){document.body.classList.add('motion-ready');const observer=new IntersectionObserver(items=>items.forEach(item=>{if(item.isIntersecting){item.target.classList.add('visible');observer.unobserve(item.target);}}),{threshold:.06});document.querySelectorAll('.heading,.story-panel,.event-card,.countdown,.venue-panel,footer').forEach(el=>{el.classList.add('reveal');observer.observe(el);});}
 
 })();
