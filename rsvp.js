@@ -1,30 +1,50 @@
-module.exports = async function handler(request, response) {
-  if (request.method !== 'POST') return response.status(405).json({ error: 'Method not allowed' });
+(() => {
+  const form = document.getElementById('rsvpForm');
+  if (!form) return;
 
-  let body=request.body;
-  if(typeof body==='string'){try{body=JSON.parse(body);}catch{return response.status(400).json({error:'Invalid request'});}}
-  const { name, attendance, guests, website } = body || {};
-  if (website) return response.status(200).json({ ok: true });
-  if (typeof name!=='string' || !name.trim() || name.length>100 || !['Yes', 'No'].includes(attendance)) {
-    return response.status(400).json({ error: 'Please provide your name and attendance.' });
-  }
+  const status = document.getElementById('rsvpStatus');
+  const submit = document.getElementById('rsvpSubmit');
+  const guests = document.getElementById('guests');
+  const minus=document.getElementById('guestMinus'), plus=document.getElementById('guestPlus');
+  const count=document.getElementById('rsvpCount'), decline=document.getElementById('rsvpDecline');
+  function updateButtons(){minus.disabled=Number(guests.value)<=1;plus.disabled=Number(guests.value)>=20;}
+  function step(amount){guests.value=String(Math.max(1,Math.min(20,(Number(guests.value)||1)+amount)));updateButtons();}
+  minus.addEventListener('click',()=>step(-1));plus.addEventListener('click',()=>step(1));guests.addEventListener('input',updateButtons);updateButtons();
+  form.querySelectorAll('[name="attendance"]').forEach(radio=>radio.addEventListener('change',()=>{
+    const no=radio.value==='No';guests.disabled=no;count.hidden=no;decline.hidden=!no;
+  }));
+  if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){form.classList.add('rsvp-visible');observer.disconnect();}},{threshold:.12});observer.observe(form);}
 
-  const guestCount=attendance==='No'?0:Number(guests);
-  if(!Number.isInteger(guestCount)||guestCount<0||guestCount>20||(attendance==='Yes'&&guestCount<1))return response.status(400).json({error:'Please enter a valid guest count.'});
-  // Public responder fields, not account credentials. Keep these in sync if the Google Form changes.
-  const endpoint='https://docs.google.com/forms/d/e/1FAIpQLScZNRArecbu6WabiXaduVYREOz8LuyMFezhl4p8zzd0g6rJOQ/formResponse?hl=en';
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity() || form.elements.website.value) return;
 
-  try {
-    const upstream = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      signal:AbortSignal.timeout(15000),
-      body:new URLSearchParams({'entry.1810788290':name.trim(),'entry.214290826':attendance,'entry.1940857439':String(guestCount)})
-    });
-    const confirmation=await upstream.text();
-    if (!upstream.ok || !confirmation.includes('Your response has been recorded.')) throw new Error('Google did not confirm the response');
-    return response.status(200).json({ ok: true });
-  } catch {
-    return response.status(502).json({ error: 'Could not save RSVP.' });
-  }
-}
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+    payload.guests=payload.attendance==='No'?0:Number(payload.guests);
+    submit.disabled = true;
+    status.textContent = 'Sending your response…';
+    status.dataset.state = '';
+
+    try {
+      const response = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result=await response.json();
+      if (!response.ok || result.ok !== true) throw new Error('RSVP could not be sent');
+      form.reset();
+      guests.disabled = false;
+      guests.value = '1';
+      count.hidden=false;decline.hidden=true;updateButtons();
+      status.textContent = 'Thank you. Your RSVP has been received with love.';
+      status.dataset.state = 'success';
+    } catch {
+      status.textContent = 'We could not send your RSVP. Please try again shortly.';
+      status.dataset.state = 'error';
+    } finally {
+      submit.disabled = false;
+    }
+  });
+})();
