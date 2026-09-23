@@ -10,7 +10,7 @@ module.exports = async function handler(request, response) {
   }
 
   const guestCount=attendance==='No'?0:Number(guests);
-  if(!Number.isInteger(guestCount)||guestCount<0||guestCount>20||(attendance==='Yes'&&guestCount<1))return response.status(400).json({error:'Please enter a valid guest count.'});
+  if(!Number.isInteger(guestCount)||guestCount<0||guestCount>8||(attendance==='Yes'&&guestCount<1))return response.status(400).json({error:'Please enter a valid guest count.'});
   // Public responder fields, not account credentials. Keep these in sync if the Google Form changes.
   const endpoint='https://docs.google.com/forms/d/e/1FAIpQLScZNRArecbu6WabiXaduVYREOz8LuyMFezhl4p8zzd0g6rJOQ/formResponse?hl=en';
 

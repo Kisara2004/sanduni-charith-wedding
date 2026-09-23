@@ -7,8 +7,8 @@
   const guests = document.getElementById('guests');
   const minus=document.getElementById('guestMinus'), plus=document.getElementById('guestPlus');
   const count=document.getElementById('rsvpCount'), decline=document.getElementById('rsvpDecline');
-  function updateButtons(){minus.disabled=Number(guests.value)<=1;plus.disabled=Number(guests.value)>=20;}
-  function step(amount){guests.value=String(Math.max(1,Math.min(20,(Number(guests.value)||1)+amount)));updateButtons();}
+  function updateButtons(){minus.disabled=Number(guests.value)<=1;plus.disabled=Number(guests.value)>=8;}
+  function step(amount){guests.value=String(Math.max(1,Math.min(8,(Number(guests.value)||1)+amount)));updateButtons();}
   minus.addEventListener('click',()=>step(-1));plus.addEventListener('click',()=>step(1));guests.addEventListener('input',updateButtons);updateButtons();
   form.querySelectorAll('[name="attendance"]').forEach(radio=>radio.addEventListener('change',()=>{
     const no=radio.value==='No';guests.disabled=no;count.hidden=no;decline.hidden=!no;
